@@ -13,7 +13,9 @@
 }
 .photo{
   cursor:pointer;
+  box-shadow: 0 0 5px black;
 }
+ 
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
