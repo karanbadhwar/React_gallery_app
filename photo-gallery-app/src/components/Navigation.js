@@ -7,13 +7,13 @@ export default function Navigation(props) {
       <nav className="main-nav">
         <ul>
           <li>
-            <Link to="/Cats" onClick={() => props.handleSearch("Cats")}>Cats</Link>
+            <Link to="/search/Cats" onClick={() => props.handleSearch("Cats")}>Cats</Link>
           </li>
           <li>
-            <Link to="/Dogs" onClick={() => props.handleSearch("Dogs")}>Dogs</Link>
+            <Link to="/search/Dogs" onClick={() => props.handleSearch("Dogs")}>Dogs</Link>
           </li>
           <li>
-            <Link to="/Pokemons" onClick={() => props.handleSearch("Pokemons")}>Pokemons</Link>
+            <Link to="/search/Pokemons" onClick={() => props.handleSearch("Pokemons")}>Pokemons</Link>
           </li>
         </ul>
       </nav>
