@@ -6,6 +6,7 @@ import apiKey from "../config";
 import Navigation from "./Navigation";
 import Gifnotfound from "./Gifnotfound";
 import Spinner from "./Spinner";
+// import { useParams } from "react-router-dom";
 
 export default class Gallery extends Component {
   state = {
@@ -13,6 +14,7 @@ export default class Gallery extends Component {
     data: [],
     loading: true,
   };
+  
   
   handleSearch = async(search) =>{
     let userInput = search
@@ -31,6 +33,7 @@ export default class Gallery extends Component {
     });
     const title = document.querySelector('title');
     title.textContent = `Flickr-Photos/${userInput}`;
+
   }
   
   async componentDidMount() {
