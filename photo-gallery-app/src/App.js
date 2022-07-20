@@ -1,23 +1,73 @@
+import { Routes, Route} from 'react-router-dom';
 import './App.css';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import Error404 from './components/Error404';
+import { React, Component } from 'react';
+import axios from "axios";
+import apiKey from '../src/config';
+import Gallery from './components/Gallery';
 // import SearchForm from './components/SearchForm';
-import Gallery from './components/Gallery';;
-// import apiKey from '../src/config';
 
-function App() {
-  const navigate = useNavigate();
+class App extends Component {
+  // let {userSearch} = useParams();
+  userSearch = '';
+  state = {
+    search: '',
+    data: [],
+    loading: true,
+  };
 
-  const handleReRoute = (value) =>{
-    navigate(`/search/${value}`, {replace: true});
+  handleSearchData = (data) =>{
+    this.setState({
+      data: data
+    })
   }
-  
-  return (
-    <Routes>
-      <Route path= '/' element={<Gallery reRoute={handleReRoute} />} />
-      <Route path= '/search/:usersearch' element={<Gallery reRoute={handleReRoute} />} />
-    </Routes>
-   
-    );
+  handleSearchTag = (value) =>{
+    this.setState({
+      search: value
+    })
+  }
+
+  handleLoading = (bool) =>{
+    this.setState({
+      loading: bool
+    })
+  }
+  handleRouting = (value) =>{
+    this.userSearch = value;
+    console.log(this.userSearch);
+  }
+
+   async componentDidMount() {
+    let api = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=random&per_page=24&format=json&nojsoncallback=1`;
+    let fetchedData = await axios
+      .get(api)
+      .then((data) => data.data.photos)
+      .catch((err) => console.log(err));
+    this.setState({
+      data: fetchedData.photo,
+      loading: false,
+    });
+  }
+
+//  async componentDidUpdate(){
+//     let api = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${this.state.search}&per_page=24&format=json&nojsoncallback=1`;
+//     let fetchedData = await axios.get(api).then((data) => data.data.photos).catch((err) => console.log(err));
+//     this.setState({
+//       data: fetchedData.photo,
+//       loading: false,
+//     })
+//   }
+
+  render(){
+    return (
+      <Routes>
+        <Route path= '/' element={<Gallery data={this.state.data} handleLoading={this.handleLoading} handleSearch={this.handleSearchTag} handleData={this.handleSearchData} search={this.state.search} loading={this.state.loading}/>} />
+        <Route path= '/search/:usersearch' element={<Gallery data={this.state.data} handleLoading={this.handleLoading} handleSearch={this.handleSearchTag} handleData={this.handleSearchData} search={this.state.search} loading={this.state.loading}/>} />
+        <Route path='*' element={<Error404 />} /> 
+      </Routes>
+    
+      );
+  }
 }
 
 export default App;
