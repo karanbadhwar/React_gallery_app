@@ -9,9 +9,8 @@ import Gallery from './components/Gallery';
 
 class App extends Component {
   // let {userSearch} = useParams();
-  userSearch = '';
   state = {
-    search: '',
+    search: 'random',
     data: [],
     loading: true,
   };
@@ -23,20 +22,24 @@ class App extends Component {
   }
   handleSearchTag = (value) =>{
     this.setState({
-      search: value
+      search: value,
     })
   }
-
+  handleParam = (param) =>{
+    this.setState({
+      param
+    })
+  }
   handleLoading = (bool) =>{
     this.setState({
       loading: bool
     })
   }
-  handleRouting = (value) =>{
-    this.userSearch = value;
-    console.log(this.userSearch);
-  }
-
+handleRouting = (value) =>{
+  this.setState({
+    routing: value
+  })
+}
    async componentDidMount() {
     let api = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=random&per_page=24&format=json&nojsoncallback=1`;
     let fetchedData = await axios
@@ -49,20 +52,12 @@ class App extends Component {
     });
   }
 
-//  async componentDidUpdate(){
-//     let api = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${this.state.search}&per_page=24&format=json&nojsoncallback=1`;
-//     let fetchedData = await axios.get(api).then((data) => data.data.photos).catch((err) => console.log(err));
-//     this.setState({
-//       data: fetchedData.photo,
-//       loading: false,
-//     })
-//   }
-
   render(){
     return (
       <Routes>
-        <Route path= '/' element={<Gallery data={this.state.data} handleLoading={this.handleLoading} handleSearch={this.handleSearchTag} handleData={this.handleSearchData} search={this.state.search} loading={this.state.loading}/>} />
-        <Route path= '/search/:usersearch' element={<Gallery data={this.state.data} handleLoading={this.handleLoading} handleSearch={this.handleSearchTag} handleData={this.handleSearchData} search={this.state.search} loading={this.state.loading}/>} />
+        <Route path= '/' element={<Gallery  data={this.state.data} handleLoading={this.handleLoading} handleSearch={this.handleSearchTag} handleData={this.handleSearchData} search={this.state.search} loading={this.state.loading} />} />
+        <Route path= '/search/:usersearch/' element={<Gallery  data={this.state.data} handleLoading={this.handleLoading} handleSearch={this.handleSearchTag} handleData={this.handleSearchData} search={this.state.search} loading={this.state.loading} />}/>
+        <Route path= '/search/:usersearch/:optional' element={<Gallery  data={this.state.data} handleLoading={this.handleLoading} handleSearch={this.handleSearchTag} handleData={this.handleSearchData} search={this.state.search} loading={this.state.loading} />}/>
         <Route path='*' element={<Error404 />} /> 
       </Routes>
     
