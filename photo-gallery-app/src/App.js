@@ -41,6 +41,7 @@ handleRouting = (value) =>{
   })
 }
    async componentDidMount() {
+    console.log('Mounted')
     let api = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=random&per_page=24&format=json&nojsoncallback=1`;
     let fetchedData = await axios
       .get(api)
@@ -56,6 +57,7 @@ handleRouting = (value) =>{
     return (
       <Routes>
         <Route path= '/' element={<Gallery  data={this.state.data} handleLoading={this.handleLoading} handleSearch={this.handleSearchTag} handleData={this.handleSearchData} search={this.state.search} loading={this.state.loading} />} />
+        <Route path= '/random' element={<Gallery  data={this.state.data} handleLoading={this.handleLoading} handleSearch={this.handleSearchTag} handleData={this.handleSearchData} search={this.state.search} loading={this.state.loading} />} />
         <Route path= '/search/:usersearch/' element={<Gallery  data={this.state.data} handleLoading={this.handleLoading} handleSearch={this.handleSearchTag} handleData={this.handleSearchData} search={this.state.search} loading={this.state.loading} />}/>
         <Route path= '/search/:usersearch/:optional' element={<Gallery  data={this.state.data} handleLoading={this.handleLoading} handleSearch={this.handleSearchTag} handleData={this.handleSearchData} search={this.state.search} loading={this.state.loading} />}/>
         <Route path='*' element={<Error404 />} /> 

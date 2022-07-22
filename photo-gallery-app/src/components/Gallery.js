@@ -12,6 +12,9 @@ export default function Gallery(props) {
   const params = useParams();
   const navigate = useNavigate();
   
+  if(!params.usersearch ){
+    navigate('/search/random', {replace: true})
+  }
 
   const handleSearch = async (search) => {
     let userInput = search;
@@ -33,12 +36,13 @@ export default function Gallery(props) {
   };
 
   // let { usersearch } = useParams();
-  console.log(params.usersearch);
+  // console.log(params.usersearch);
   useEffect(() => {
       if (params.usersearch === props.search || "random" === props.search) { 
         // console.log('same');
         return;
       }else{
+        console.log('useEffect');
         // console.log(props.search);
         // console.log('Params is :',params.usersearch);
         props.handleLoading(true);
