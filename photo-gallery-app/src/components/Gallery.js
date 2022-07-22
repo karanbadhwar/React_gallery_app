@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Photo from "./Photo";
 import SearchForm from "./SearchForm";
 import axios from "axios";
@@ -6,11 +6,12 @@ import apiKey from "../config";
 import Navigation from "./Navigation";
 import Gifnotfound from "./Gifnotfound";
 import Spinner from "./Spinner";
-import { useNavigate } from "react-router-dom";
-
+import { useLocation, useParams, useNavigate } from "react-router-dom";
+// 
 export default function Gallery(props) {
+  const params = useParams();
   const navigate = useNavigate();
-  // let { usersearch } = useParams();
+  
 
   const handleSearch = async (search) => {
     let userInput = search;
@@ -31,24 +32,28 @@ export default function Gallery(props) {
     navigate(`/search/${value}`, { replace: true });
   };
 
-  // useEffect(() => {
-  //     if (usersearch === props.search || "random" === props.search) { 
-  //       console.log('same')
-  //     }else{
-  //       console.log(props.search);
-  //       let api = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${usersearch}&per_page=24&format=json&nojsoncallback=1`;
-  //       props.handleLoading(true);
-  //       let fetchedData = axios
-  //         .get(api)
-  //         .then((data) => data.data.photos.photo)
-  //         .catch((err) => console.log(err));
-  //       props.handleSearch(usersearch);
-  //       props.handleData(fetchedData.json());
-  //       props.handleLoading(false);
-  //       const title = document.querySelector("title");
-  //       title.textContent = `Flickr-Photos/${usersearch}`;
-  //       }
-  //   }, []);
+  // let { usersearch } = useParams();
+  console.log(params.usersearch);
+  useEffect(() => {
+      if (params.usersearch === props.search || "random" === props.search) { 
+        console.log('same');
+        return;
+      }else{
+        console.log(props.search);
+        console.log('Params is :',params.usersearch);
+        let api = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${params.usersearch}&per_page=24&format=json&nojsoncallback=1`;
+        props.handleLoading(true);
+        let fetchedData = axios
+          .get(api)
+          .then((data) => data.data.photos.photo)
+          .catch((err) => console.log(err));
+        props.handleData(fetchedData);
+        props.handleSearch(params.usersearch);
+        props.handleLoading(false);
+        const title = document.querySelector("title");
+        title.textContent = `Flickr-Photos/${params.usersearch}`;
+        }
+    },[params.usersearch]);
 
   let display;
   if (props.data.length > 0) {
