@@ -36,18 +36,19 @@ export default function Gallery(props) {
   console.log(params.usersearch);
   useEffect(() => {
       if (params.usersearch === props.search || "random" === props.search) { 
-        console.log('same');
+        // console.log('same');
         return;
       }else{
-        console.log(props.search);
-        console.log('Params is :',params.usersearch);
-        let api = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${params.usersearch}&per_page=24&format=json&nojsoncallback=1`;
+        // console.log(props.search);
+        // console.log('Params is :',params.usersearch);
         props.handleLoading(true);
-        let fetchedData = axios
+        let api = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${params.usersearch}&per_page=24&format=json&nojsoncallback=1`;
+        axios
           .get(api)
           .then((data) => data.data.photos.photo)
+          .then(data => props.handleData(data))
           .catch((err) => console.log(err));
-        props.handleData(fetchedData);
+        // props.handleData(fetchedData);
         props.handleSearch(params.usersearch);
         props.handleLoading(false);
         const title = document.querySelector("title");
