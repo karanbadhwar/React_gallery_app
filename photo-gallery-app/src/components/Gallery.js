@@ -6,7 +6,7 @@ import apiKey from "../config";
 import Navigation from "./Navigation";
 import Gifnotfound from "./Gifnotfound";
 import Spinner from "./Spinner";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 // 
 export default function Gallery(props) {
   const params = useParams();
